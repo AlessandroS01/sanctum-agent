@@ -1,18 +1,19 @@
-from langchain_core.messages import AIMessage, SystemMessage, HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_ollama import ChatOllama
+
 from sanctum.graph.state import DialecticalState
 
-
-llm = ChatOllama(model="qwen3.5:0.8b", temperature=0.2)
+llm = ChatOllama(model="qwen3.5:0.8b", temperature=0.1)
 
 
 def steelman_node(state: DialecticalState) -> dict:
     messages = [
         SystemMessage(
             content=(
-                "You are an epistemic sparring partner. Construct the strongest possible "
-                "version of the user's premise (steelmanning). Detail the best empirical "
-                "and logical arguments supporting their claim without attacking it."
+                "You are an epistemic sparring partner. Construct the strongest "
+                "possible version of the user's premise (steelmanning). Detail the "
+                "best empirical and logical arguments supporting their claim without "
+                "attacking it."
             )
         ),
         HumanMessage(content=f"Please steelman my thesis: {state['thesis']}"),
@@ -21,16 +22,13 @@ def steelman_node(state: DialecticalState) -> dict:
     return {
         "steelman": response.content,
         "phase": "steelmanning",
-        "messages": [
-            AIMessage(content=f"### Steelmanned Core\n\n{response.content}")
-        ],
+        "messages": [AIMessage(content=f"### Steelmanned Core\n\n{response.content}")],
     }
 
 
 def antithesis_node(state: DialecticalState) -> dict:
     concessions_formatted = (
-        "\n".join(f"- {c}" for c in state.get("concessions", []))
-        or "None logged yet."
+        "\n".join(f"- {c}" for c in state.get("concessions", [])) or "None logged yet."
     )
     system_instruction = (
         "You are the Inquisitor. Stress-test the user's thesis. Look for unverified "
@@ -60,7 +58,8 @@ def synthesis_node(state: DialecticalState) -> dict:
         "\n".join(f"- {c}" for c in state.get("concessions", [])) or "None."
     )
     prompt = (
-        "The adversarial phase is finished. Provide an objective, battle-tested synthesis:\n"
+        "The adversarial phase is finished. Provide an objective, "
+        "battle-tested synthesis:\n"
         "1. What survived the pressure testing.\n"
         "2. What assumptions were falsified or stripped away.\n"
         "3. The explicit operational boundaries where the thesis remains true.\n\n"

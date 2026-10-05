@@ -1,4 +1,5 @@
 from langchain_core.messages import HumanMessage
+
 from sanctum.graph.workflow import sanctum_graph
 
 
@@ -64,9 +65,7 @@ def run_session() -> None:
         for event in sanctum_graph.stream(None, config=config):
             for node_name, output in event.items():
                 if "messages" in output:
-                    speaker = (
-                        "Synthesis" if node_name == "synthesis" else "Inquisitor"
-                    )
+                    speaker = "Synthesis" if node_name == "synthesis" else "Inquisitor"
                     print(f"\n[{speaker}]:\n{output['messages'][-1].content}\n")
 
 

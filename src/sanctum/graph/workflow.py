@@ -1,13 +1,12 @@
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
+
 from sanctum.graph.nodes import antithesis_node, steelman_node, synthesis_node
 from sanctum.graph.state import DialecticalState
 
 
 def route_debate(state: DialecticalState) -> str:
-    last_message = (
-        state["messages"][-1].content.lower() if state["messages"] else ""
-    )
+    last_message = state["messages"][-1].content.lower() if state["messages"] else ""
     if (
         "synthesize" in last_message
         or "conclude" in last_message
