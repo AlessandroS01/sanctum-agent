@@ -6,7 +6,7 @@ from sanctum.graph.state import DialecticalState
 
 
 def route_debate(state: DialecticalState) -> str:
-    last_message = state["messages"][-1].content.lower() if state["messages"] else ""
+    last_message = state["messages"][-1].content if state["messages"] else ""
     if (
         "synthesize" in last_message
         or "conclude" in last_message
