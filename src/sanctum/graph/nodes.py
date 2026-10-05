@@ -1,3 +1,5 @@
+from typing import Any
+
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_ollama import ChatOllama
 
@@ -6,7 +8,8 @@ from sanctum.graph.state import DialecticalState
 llm = ChatOllama(model="qwen3.5:0.8b", temperature=0.1)
 
 
-def steelman_node(state: DialecticalState) -> dict:
+def steelman_node(state: DialecticalState) -> dict[str, Any]:
+    """Construct the strongest possible version of the user's premise."""
     messages = [
         SystemMessage(
             content=(
@@ -26,7 +29,8 @@ def steelman_node(state: DialecticalState) -> dict:
     }
 
 
-def antithesis_node(state: DialecticalState) -> dict:
+def antithesis_node(state: DialecticalState) -> dict[str, Any]:
+    """Stress-test the thesis against edge cases and unverified assumptions."""
     concessions_formatted = (
         "\n".join(f"- {c}" for c in state.get("concessions", [])) or "None logged yet."
     )
@@ -53,7 +57,8 @@ def antithesis_node(state: DialecticalState) -> dict:
     }
 
 
-def synthesis_node(state: DialecticalState) -> dict:
+def synthesis_node(state: DialecticalState) -> dict[str, Any]:
+    """Synthesize battle-tested conclusions after adversarial pressure testing."""
     concessions_formatted = (
         "\n".join(f"- {c}" for c in state.get("concessions", [])) or "None."
     )
