@@ -35,6 +35,7 @@ When writing or modifying code in this repository, follow these rules:
 3. Process Isolation: Keep tool logic completely decoupled from prompt logic. Tools must run as isolated MCP routines rather than in-memory prompt hacks.
 4. Privacy and Air-Gapping: Never suggest cloud-hosted embedding or LLM services. All computation, storage, and evaluation must remain local.
 5. Code Style: Favor explicit, maintainable Python using standard libraries where possible. Keep functions focused and well-documented.
+6. Development Workflow: Make changes to the codebase to fulfil `ruff check` and `ruff format` before running any other commands.
 
 ## Common Development Commands
 Create and activate the Conda environment:
